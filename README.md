@@ -64,6 +64,8 @@ min_length = 3
 max_length = 10
 
 generator = RandomizedWords::Words.new words, letter_count, min_length, max_length
+puts generator
+# => <RandomizedWords::Words words=(234369 items) letter_count=2 min_length=3 max_length=10>
 20.times { puts generator.word }
 # => rectualit
 # => inscaterne
