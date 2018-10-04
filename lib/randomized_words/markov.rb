@@ -1,5 +1,5 @@
+# based on a Python sketch retrieved 2018-10-04 from: https://gist.github.com/Eckankar/360212
 require 'securerandom'
-require 'json'
 
 module RandomizedWords
   class Markov
