@@ -8,10 +8,6 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: randomized_words [options]"
 
-  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-    options[:verbose] = v
-  end
-
   opts.on("-f", "--file [FILE]", String, "words file path, one word per line") do |f|
     options[:file] = f
   end
