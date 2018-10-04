@@ -28,11 +28,9 @@ module RandomizedWords
       target_length = get_target_length
       next_letter = @ngrams[key].sample(random: SecureRandom)
 
-      if target_length
-        while next_letter == TRAILER
-          key = @starts.sample(random: SecureRandom)
-          next_letter = key.chars.last
-        end
+      while next_letter == TRAILER
+        key = @starts.sample(random: SecureRandom)
+        next_letter = key.chars.last
       end
 
       loop do
