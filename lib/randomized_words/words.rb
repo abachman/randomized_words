@@ -12,9 +12,14 @@ module RandomizedWords
     end
 
     def self.parse_file(word_file_path)
-      open(word_file_path).readlines().map(&:strip).map {|w|
-        w.downcase.gsub(/[^a-z]/,'')
-      }.sort.uniq
+      open(word_file_path).read().
+        downcase.
+        gsub(/[^a-z]/,' ').
+        split(/\s/).
+        map(&:strip).
+        sort.
+        uniq.
+        select {|w| w.size > 0}
     end
 
     def to_s
