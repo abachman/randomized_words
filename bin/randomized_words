@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "randomized_words"
+require "optparse"
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: randomized_words [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+
+  opts.on("-f", "--file [FILE]", String, "words file path, one word per line") do |f|
+    options[:file] = f
+  end
+
+  opts.on("-n", "--count [COUNT]", Integer, "letter sequence length (2 minimum, longer is less random)") do |n|
+    options[:letter_count] = n
+  end
+
+  opts.on("--min [LENGTH]", Integer, "minimum word length") do |min|
+    options[:minimum_length] = min
+  end
+
+  opts.on("--max [LENGTH]", Integer, "maximum word length") do |max|
+    options[:maximum_length] = max
+  end
+
+  opts.on("-w", "--words [LENGTH]", Integer, "number of words to generate") do |wc|
+    options[:count] = wc
+  end
+end.parse!
+
+word_list = nil
+if options[:file]
+  word_list = RandomizedWords::Words.parse_file(options[:file])
+end
+
+letter_count = 2
+if options.has_key?(:letter_count)
+  letter_count = options[:letter_count].to_i
+end
+
+minimum_length = nil
+if options.has_key?(:minimum_length)
+  minimum_length = options[:minimum_length].to_i
+end
+
+maximum_length = nil
+if options.has_key?(:maximum_length)
+  maximum_length = options[:maximum_length].to_i
+end
+
+words = RandomizedWords::Words.new(word_list, letter_count, minimum_length, maximum_length)
+
+(options[:count] || 20).times do
+  puts words.word
+end
+
