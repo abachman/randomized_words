@@ -22,6 +22,8 @@ Or install it yourself as:
 
 ## Usage
 
+### Words
+
 From Ruby:
 
 ```
@@ -98,6 +100,49 @@ All arguments are optional.
 When given min length or max length values, this library won't exclusively use the Markov chain generation methodology so longer words may "restart" in the middle. Other than that, everything that comes out should look like it could be in the original word list.
 
 `RandomizedWords::Words.parse_file` takes a file path as an argument and returns an Array of words with spaces, numbers, and punctuation taken out.
+
+### Colors
+
+```ruby
+colors = RandomizedWords::Colors.new
+
+puts colors.hex
+puts colors.rgb
+puts colors.hsl
+puts colors.name
+
+# 171413
+# 25,21,21
+# 255,240,229
+# lightgray
+```
+
+`RandomizedWords::Colors` object can produce RGB, HSL, CSS hex, or CSS color name values. All values are returned as strings.
+
+RGB and HSL are three integers in the range 0 to 255 exclusive, joined in a string with comma separators.
+
+
+### Seeded Randomness
+
+You can optionally set a seed value for your color or word generator to make it produce values in a predictable order.
+
+```ruby
+colors_1 = RandomizedWords::Colors.new
+colors_2 = RandomizedWords::Colors.new
+
+colors_1.seed = "this is a random seed value"
+colors_2.seed = "this is a random seed value"
+
+puts colors_1.hex
+puts colors_2.hex
+puts colors_1.rgb
+puts colors_2.rgb
+
+# 161312
+# 161312
+# 23,20,19
+# 23,20,19
+```
 
 ## Development
 
