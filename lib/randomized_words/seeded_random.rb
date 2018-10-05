@@ -7,12 +7,17 @@ module RandomizedWords
         @_random = nil
         return
       elsif value.is_a?(String)
-        # treat strings as a base255 number
-        sum = 0
-        value.chars.reverse.each_with_index do |c, i|
-          sum += (c.bytes[0] * 255 ** i)
+        if /\A[a-fA-F0-9]+\z/ =~ value
+          # if it looks like a hex string, treat it like hex
+          value = value.to_i(16)
+        else
+          # treat strings as a base255 number
+          sum = 0
+          value.chars.reverse.each_with_index do |c, i|
+            sum += (c.bytes[0] * 255 ** i)
+          end
+          value = sum
         end
-        value = sum
       end
 
       @_random = Random.new(value.to_i)
