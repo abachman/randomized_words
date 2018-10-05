@@ -1,13 +1,14 @@
 # based on a Python sketch retrieved 2018-10-04 from: https://gist.github.com/Eckankar/360212
-require 'securerandom'
-
 module RandomizedWords
   class Markov
     TRAILER = " "
 
-    def initialize(words:, letter_count:, min_length: nil, max_length: nil)
+    attr_reader :parent
+
+    def initialize(words:, letter_count:, parent:, min_length: nil, max_length: nil)
       @size = letter_count || 2
       @words = words.select {|w| w.size > @size}
+      @parent = parent
 
       @starts = []
       @ngrams = {}
@@ -23,13 +24,13 @@ module RandomizedWords
         return ''
       end
 
-      key = @starts.sample(random: SecureRandom)
+      key = @starts.sample(random: parent.random)
       word = key
       target_length = get_target_length
-      next_letter = @ngrams[key].sample(random: SecureRandom)
+      next_letter = @ngrams[key].sample(random: parent.random)
 
       while next_letter == TRAILER
-        key = @starts.sample(random: SecureRandom)
+        key = @starts.sample(random: parent.random)
         next_letter = key.chars.last
       end
 
@@ -40,10 +41,10 @@ module RandomizedWords
         next_grams = @ngrams[key]
         while next_grams.nil?
           # dead end, start fresh
-          key = @starts.sample(random: SecureRandom)
+          key = @starts.sample(random: parent.random)
           next_grams = @ngrams[key]
         end
-        next_letter = next_grams.sample(random: SecureRandom)
+        next_letter = next_grams.sample(random: parent.random)
 
         if target_length
           if word.size >= target_length
@@ -51,7 +52,7 @@ module RandomizedWords
           end
 
           while next_letter == TRAILER
-            key = @starts.sample(random: SecureRandom)
+            key = @starts.sample(random: parent.random)
             next_letter = key.chars.last
           end
         elsif next_letter == TRAILER

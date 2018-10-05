@@ -1,7 +1,10 @@
 require 'randomized_words/markov'
+require 'randomized_words/seeded_random'
 
 module RandomizedWords
   class Words
+    include SeededRandom
+
     attr_reader :words, :letter_count, :min_length, :max_length
 
     def initialize(words=nil, letter_count=nil, min_length=nil, max_length=nil)
@@ -15,7 +18,7 @@ module RandomizedWords
         @words = self.class.parse_file(path)
       end
 
-      @markov = Markov.new(words: @words, letter_count: @letter_count, min_length: @min_length, max_length: @max_length)
+      @markov = Markov.new(words: @words, letter_count: @letter_count, min_length: @min_length, max_length: @max_length, parent: self)
     end
 
     def self.parse_file(word_file_path)
