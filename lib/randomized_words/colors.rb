@@ -1,5 +1,3 @@
-require 'csv'
-
 NAMES = %w( black silver gray white maroon red purple fuchsia green lime olive
             yellow navy blue teal aqua orange aliceblue antiquewhite aquamarine azure beige
             bisque blanchedalmond blueviolet brown burlywood cadetblue chartreuse chocolate
@@ -27,9 +25,9 @@ module RandomizedWords
 
     # Get a CSS color name.
     #
-    #    get_name => "snow"
+    #    name => "snow"
     #
-    def get_name
+    def name
       NAMES.sample(random: random)
     end
 
@@ -37,8 +35,8 @@ module RandomizedWords
     #
     #    get_rgb => "120,20,248"
     #
-    def get_rgb
-      h, s, l = get_hsl.split(',').map {|val| linmap(val.to_i, 0, 255, 0.0, 0.1)}
+    def rgb
+      h, s, l = hsl.split(',').map {|val| linmap(val.to_i, 0, 255, 0.0, 0.1)}
 
       q = l < 0.5 ?
         l * (1 + s) :
@@ -49,25 +47,25 @@ module RandomizedWords
       g = hue_to_rgb(p, q, h)
       b = hue_to_rgb(p, q, h - 0.333)
 
-      [(r * 255).round, (g * 255).round, (b * 255).round].to_csv
+      [(r * 255).round, (g * 255).round, (b * 255).round].map(&:to_s).join(',')
     end
 
     # favor high saturation and lightness
-    def get_hsl
+    def hsl
       h = random.rand(256)
       s = 200 + random.rand(56)
       l = 200 + random.rand(56)
-      [h, s, l].to_csv
+      [h, s, l].map(&:to_s).join(',')
     end
 
-    def get_hex
-      r, g, b = get_rgb.split(',').map(&:to_i)
-      "%s%s%s" % [hexy(r), hexy(g), hexy(b)]
+    def hex
+      r, g, b = rgb.split(',').map(&:to_i)
+      "%s%s%s" % [hex_format(r), hex_format(g), hex_format(b)]
     end
 
     private
 
-    def hexy(int)
+    def hex_format(int)
       s = int.to_s(16).upcase
       s.size == 1 ? "0" + s : s
     end

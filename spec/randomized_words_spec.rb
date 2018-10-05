@@ -80,43 +80,43 @@ RSpec.describe RandomizedWords do
       gen_1.seed = "asdf"
       gen_2.seed = "asdf"
 
-      a = gen_1.get_hex
-      b = gen_1.get_hex
-      c = gen_1.get_hex
+      a = gen_1.hex
+      b = gen_1.hex
+      c = gen_1.hex
 
       expect(a).not_to be(b)
       expect(b).not_to be(c)
       expect(a).not_to be(c)
 
-      expect(a).to eq(gen_2.get_hex)
-      expect(b).to eq(gen_2.get_hex)
-      expect(c).to eq(gen_2.get_hex)
+      expect(a).to eq(gen_2.hex)
+      expect(b).to eq(gen_2.hex)
+      expect(c).to eq(gen_2.hex)
 
       # NOTE: this test should always work, but we're playing with randomness, so these tests may occasionally fail
-      expect(a).not_to eq(gen_3.get_hex)
-      expect(b).not_to eq(gen_3.get_hex)
-      expect(c).not_to eq(gen_3.get_hex)
+      expect(a).not_to eq(gen_3.hex)
+      expect(b).not_to eq(gen_3.hex)
+      expect(c).not_to eq(gen_3.hex)
     end
 
     it "generates color names" do
       gen = RandomizedWords::Colors.new
-      expect(gen.get_name).not_to be_nil
-      expect(gen.get_name).to match(/[a-z]+/)
+      expect(gen.name).not_to be_nil
+      expect(gen.name).to match(/[a-z]+/)
     end
 
     it "generates rgb" do
       gen = RandomizedWords::Colors.new
-      expect(gen.get_rgb).to match(/\d{1,3},\d{1,3}\d{1,3}/)
+      expect(gen.rgb).to match(/\d{1,3},\d{1,3}\d{1,3}/)
     end
 
     it "generates hsl" do
       gen = RandomizedWords::Colors.new
-      expect(gen.get_hsl).to match(/\d{1,3},\d{1,3}\d{1,3}/)
+      expect(gen.hsl).to match(/\d{1,3},\d{1,3}\d{1,3}/)
     end
 
     it "generates hex" do
       gen = RandomizedWords::Colors.new
-      expect(gen.get_hex).to match(/[A-F0-9]{6}/)
+      expect(gen.hex).to match(/[A-F0-9]{6}/)
     end
   end
 end
