@@ -83,6 +83,23 @@ RSpec.describe RandomizedWords do
         expect(gen_4.word).to eq(gen_5.word)
       end
     end
+
+    it "repeats initial value with the same seed" do
+      last_word = nil
+
+      gen = RandomizedWords::Words.new nil, 2, 10, 15
+      gen.seed = 'asdf'
+      last_word = gen.word
+
+      20.times do
+        gen = RandomizedWords::Words.new nil, 2, 10, 15
+        gen.seed = 'asdf'
+        word = gen.word
+        expect(word).to eq(last_word)
+        last_word = word
+      end
+
+    end
   end
 
   describe RandomizedWords::Colors do

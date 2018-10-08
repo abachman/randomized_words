@@ -110,11 +110,11 @@ module RandomizedWords
 
     def get_target_length
       if !@min_length.nil? && !@max_length.nil?
-        (rand() * (@max_length - @min_length)).ceil + @min_length
+        (parent.random.rand() * (@max_length - @min_length)).ceil + @min_length
       elsif !@min_length.nil?
-        (rand() * @min_length).ceil + @min_length
+        (parent.random.rand() * @min_length).ceil + @min_length
       elsif !@max_length.nil?
-        @max_length - (rand() * 3).floor
+        @max_length - (parent.random.rand() * 3).floor
       end
     end
   end
