@@ -52,6 +52,10 @@ RSpec.describe RandomizedWords do
       gen_1.seed = "asdf"
       gen_2.seed = "asdf"
 
+      expect(gen_1.seed).to eq('asdf')
+      expect(gen_2.seed).to eq('asdf')
+      expect(gen_3.seed).not_to eq('asdf')
+
       a = gen_1.word
       b = gen_1.word
       c = gen_1.word

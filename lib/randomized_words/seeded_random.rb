@@ -3,6 +3,8 @@ require 'securerandom'
 module RandomizedWords
   module SeededRandom
     def seed=(value)
+      @seed = value
+
       if value.nil?
         @_random = nil
         return
@@ -20,7 +22,7 @@ module RandomizedWords
         end
       end
 
-      @_random = Random.new(value.to_i)
+      @_random = Random.new(value.to_f)
 
       return
     end
