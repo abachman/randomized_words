@@ -68,6 +68,16 @@ RSpec.describe RandomizedWords do
       expect(a).not_to eq(gen_3.word)
       expect(b).not_to eq(gen_3.word)
       expect(c).not_to eq(gen_3.word)
+
+      gen_4 = RandomizedWords::Words.new
+      gen_5 = RandomizedWords::Words.new
+
+      gen_4.seed = "123"
+      gen_5.seed = "123"
+
+      100.times do
+        expect(gen_4.word).to eq(gen_5.word)
+      end
     end
   end
 

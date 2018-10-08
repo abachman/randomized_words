@@ -1,22 +1,30 @@
+require 'json'
+
 # based on a Python sketch retrieved 2018-10-04 from: https://gist.github.com/Eckankar/360212
 module RandomizedWords
   class Markov
     TRAILER = " "
 
-    attr_reader :parent
+    attr_reader :parent, :ngrams, :starts
 
-    def initialize(words:, letter_count:, parent:, min_length: nil, max_length: nil)
-      @size = letter_count || 2
-      @words = words.select {|w| w.size > @size}
+    def initialize(words:, letter_count:, parent:, min_length: nil,
+                   max_length: nil, cache: nil)
       @parent = parent
-
-      @starts = []
-      @ngrams = {}
-
       @min_length = min_length
       @max_length = max_length
 
-      generate_dictionary
+      if cache
+        @starts = cache['starts']
+        @ngrams = cache['ngrams']
+      else
+        @starts = []
+        @ngrams = {}
+
+        @size = letter_count || 2
+        @words = words.select {|w| w.size > @size}
+
+        generate_dictionary
+      end
     end
 
     def word()
@@ -61,6 +69,13 @@ module RandomizedWords
       end
 
       word
+    end
+
+    def dump_ngrams
+      JSON.generate({
+        starts: @starts,
+        ngrams: @ngrams
+      })
     end
 
     private

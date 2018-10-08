@@ -1,3 +1,4 @@
+require 'json'
 require 'randomized_words/markov'
 require 'randomized_words/seeded_random'
 
@@ -13,12 +14,23 @@ module RandomizedWords
       @min_length = min_length
       @max_length = max_length
 
+      @cache = nil
+
       if @words.nil?
-        path = File.join File.dirname(__FILE__), 'data', 'latin_words.txt'
-        @words = self.class.parse_file(path)
+        if @letter_count.nil? || @letter_count == 2
+          require 'json'
+          path = File.join File.dirname(__FILE__), 'data', 'latin_2_ngrams.json'
+          @cache = JSON.parse open(path).read()
+          @words = []
+        else
+          path = File.join File.dirname(__FILE__), 'data', 'latin_words.txt'
+          @words = self.class.parse_file(path)
+        end
       end
 
-      @markov = Markov.new(words: @words, letter_count: @letter_count, min_length: @min_length, max_length: @max_length, parent: self)
+      @markov = Markov.new(words: @words, letter_count: @letter_count,
+                           min_length: @min_length, max_length: @max_length,
+                           cache: @cache, parent: self)
     end
 
     def self.parse_file(word_file_path)
@@ -30,6 +42,10 @@ module RandomizedWords
         sort.
         uniq.
         select {|w| w.size > 0}
+    end
+
+    def dump_ngrams
+      @markov.dump_ngrams
     end
 
     def to_s
