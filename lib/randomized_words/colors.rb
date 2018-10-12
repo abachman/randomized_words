@@ -36,7 +36,7 @@ module RandomizedWords
     #    get_rgb => "120,20,248"
     #
     def rgb
-      h, s, l = hsl.split(',').map {|val| linmap(val.to_i, 0, 255, 0.0, 0.1)}
+      h, s, l = hsl.split(',').map {|val| linmap(val.to_i, 0, 255, 0.0, 1.0)}
 
       q = l < 0.5 ?
         l * (1 + s) :
