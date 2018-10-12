@@ -22,7 +22,7 @@ module RandomizedWords
         end
       end
 
-      @_random = Random.new(value.to_f)
+      @_random = Random.new(value)
 
       return
     end

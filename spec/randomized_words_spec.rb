@@ -98,7 +98,22 @@ RSpec.describe RandomizedWords do
         expect(word).to eq(last_word)
         last_word = word
       end
+    end
 
+    it "doesn't repeat when seeds are close" do
+      a = 65441511678042797511884290563408507417
+      b = 65441511678042797511884290563408507477
+
+      gen = RandomizedWords::Words.new nil, 2, 10, 15
+      gen.seed = a
+      wa = gen.word
+
+      gen = RandomizedWords::Words.new nil, 2, 10, 15
+      gen.seed = b
+      wb = gen.word
+
+      expect(a).not_to eq(b)
+      expect(wa).not_to eq(wb)
     end
   end
 
