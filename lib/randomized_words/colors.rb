@@ -53,8 +53,8 @@ module RandomizedWords
     # favor high saturation and lightness
     def hsl
       h = random.rand(256)
-      s = 200 + random.rand(56)
-      l = 200 + random.rand(56)
+      s = 220 + random.rand(36)
+      l = 50 + random.rand(56)
       [h, s, l].map(&:to_s).join(',')
     end
 
